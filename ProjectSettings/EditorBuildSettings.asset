@@ -4,5 +4,20 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 0
+    path: Assets/Scenes/SampleScene.unity
+    guid: 9fc0d4010bbf28b4594072e72b8655ab
+  - enabled: 0
+    path: Assets/Scenes/PostOffice.unity
+    guid: f757bd66df113084a8f1c7189d68e9ba
+  - enabled: 0
+    path: Assets/Scenes/School.unity
+    guid: c438bd95bff2d7440a2d8eec7079b5c6
+  - enabled: 0
+    path: Assets/Scenes/Shop.unity
+    guid: 3c854f5956ab23c428fcdf463bef51e5
+  - enabled: 1
+    path: Assets/Scenes/ChrobakMiniggame.unity
+    guid: 1d8b86f167cbdf74cb4c8e7b2f0b3a14
   m_configObjects: {}
