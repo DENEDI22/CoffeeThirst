@@ -34,7 +34,8 @@ namespace DefaultNamespace
             if (other.TryGetComponent(out PlayerInput input))
             {
                 onPlayerIn.Invoke();
-                roof.material.SetColor(Color1, new Color(roof.material.color.r, roof.material.color.g, roof.material.color.b, 0.3f));
+                var material = roof.material;
+                roof.material.SetColor(Color1, new Color(material.color.r, material.color.g, material.color.b, 0.3f));
             }
         }
         

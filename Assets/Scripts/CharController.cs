@@ -17,7 +17,7 @@ public class CharController : MonoBehaviour
     }
 
     public void Move(Vector3 direction, float amount)
-    {
+    {   
         Vector3 newVel = direction * amount;
         rb.velocity = new Vector3(newVel.x, rb.velocity.y, newVel.z);
     }

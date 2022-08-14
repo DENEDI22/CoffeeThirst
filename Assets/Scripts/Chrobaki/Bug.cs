@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 
 namespace Chrobaki
@@ -10,14 +11,13 @@ namespace Chrobaki
         public bool flyingInTheAir;
         [SerializeField] [HideInInspector] private ParticleSystem bugDeathParticles;
         [SerializeField] private AnimationCurve heightCurve, speedCurve;
-
         public Vector3 MiddleOfTheWay => new Vector3((startingPoint.x + endingPoint.x) / 2,
             (startingPoint.y + endingPoint.y) / 2, (startingPoint.z + endingPoint.z) / 2);
 
         public void BugDeath()
         {
+            FindObjectOfType<BugSpawner>().BugDeath();
             Destroy(gameObject);
-            // StartCoroutine(BugDeathCor());
         }
 
         private IEnumerator BugDeathCor()
@@ -25,6 +25,7 @@ namespace Chrobaki
             bugDeathParticles.Play();
             yield break;
         }
+
         private IEnumerator Fly()
         {
             yield return new WaitForSecondsRealtime(0.5f);

@@ -25,13 +25,16 @@ public class Bush : MonoBehaviour
     {
         StopAllCoroutines();
         hasBugOnIt = false;
-        // for (var index = 0; index < bugsOnTheBush.Count; index++)
-        // {
-            // var VARIABLE = bugsOnTheBush[index];
-            // VARIABLE.BugDeath();
-        // }
+        for (var index = 0; index < bugsOnTheBush.Count; index++)
+        {
+            var VARIABLE = bugsOnTheBush[index];
+            VARIABLE.StopAllCoroutines();
+            VARIABLE.BugDeath();
+        }
+
+        bugsOnTheBush = new List<Bug>();
     }
-    
+
     private IEnumerator ReduceHealth()
     {
         do
@@ -43,8 +46,11 @@ public class Bush : MonoBehaviour
                 for (var index = 0; index < bugsOnTheBush.Count; index++)
                 {
                     Bug bug = bugsOnTheBush[index];
-                    Destroy(bug.gameObject);
+                    bug.BugDeath();
                 }
+
+                var bushArray = FindObjectOfType<BushArray>();
+                bushArray.bushes.Remove(this);
                 Destroy(gameObject);
                 yield break;
             }

@@ -11,10 +11,20 @@ namespace Chrobaki
         [SerializeField] private GameObject bug;
         [SerializeField] private int amountOfBugsToThrow;
         [SerializeField] private BushArray bushArray;
-
+        [SerializeField] private int bugsAlive = 0; 
+        
         private void OnValidate()
         {
             bushArray = FindObjectOfType<BushArray>();
+        }
+
+        public void BugDeath()
+        {
+            bugsAlive--;
+            if (bugsAlive <= 0)
+            {
+                FindObjectOfType<ChrobakyTimer>().StartCoroutine("MatkaChangePosition");
+            }
         }
 
         private IEnumerator SpawnBugs()
@@ -34,6 +44,7 @@ namespace Chrobaki
 
             foreach (Bush bush in bushesToThrowBugsAt)
             {
+                bugsAlive++;
                 var currentBug = Instantiate(bug, transform.position, Quaternion.identity).GetComponent<Bug>();
                 currentBug.startingPoint = transform.position;
                 var bugPosition = bush.GetBugPosition();

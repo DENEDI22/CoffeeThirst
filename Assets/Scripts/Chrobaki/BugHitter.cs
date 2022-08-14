@@ -3,14 +3,14 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace Chrobaki
-{  
+{
     [RequireComponent(typeof(AudioSource))]
     public class BugHitter : MonoBehaviour
     {
         public bool hit;
         public bool canHit = true;
         public Animator playerAnimator;
-        
+
         private void CoolDown() => canHit = true;
 
         public List<GameObject> allObjectsInCollider = new List<GameObject>();
@@ -29,12 +29,12 @@ namespace Chrobaki
             for (var index = 0; index < allObjectsInCollider.Count; index++)
             {
                 var variable = allObjectsInCollider[index];
-                if (variable.CompareTag("Bug"))
+                if (variable == null)
                 {
                     allObjectsInCollider.Remove(variable);
-                    Destroy(variable.gameObject);
+                    
                 }
-                if (variable.CompareTag("Matka"))
+                else if (variable.CompareTag("Matka"))
                 {
                     variable.GetComponent<BugMother>().Hit(10f);
                     hitSoundSource.PlayDelayed(0.25f);
