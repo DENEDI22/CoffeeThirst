@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -22,6 +23,25 @@ namespace Chrobaki
             hitSoundSource = GetComponent<AudioSource>();
         }
 
+        private IEnumerator HitProcedure(GameObject _hitObject)
+        {
+            yield return new WaitForSeconds(0.25f);
+            if (_hitObject == null)
+            {
+                allObjectsInCollider.Remove(_hitObject);
+                    
+            }
+            else if (_hitObject.CompareTag("Matka"))
+            {
+                _hitObject.GetComponent<BugMother>().Hit(10f);
+                hitSoundSource.Play();
+            }
+            else if (_hitObject.CompareTag("Bush"))
+            {
+                _hitObject.GetComponent<Bush>().StopHitting();
+            }
+        }
+        
         public void HitButton(InputAction.CallbackContext _ctx)
         {
             if (!_ctx.started | !canHit) return;
@@ -29,20 +49,7 @@ namespace Chrobaki
             for (var index = 0; index < allObjectsInCollider.Count; index++)
             {
                 var variable = allObjectsInCollider[index];
-                if (variable == null)
-                {
-                    allObjectsInCollider.Remove(variable);
-                    
-                }
-                else if (variable.CompareTag("Matka"))
-                {
-                    variable.GetComponent<BugMother>().Hit(10f);
-                    hitSoundSource.PlayDelayed(0.25f);
-                }
-                else if (variable.CompareTag("Bush"))
-                {
-                    variable.GetComponent<Bush>().StopHitting();
-                }
+                StartCoroutine("HitProcedure", variable);
             }
 
             canHit = false;

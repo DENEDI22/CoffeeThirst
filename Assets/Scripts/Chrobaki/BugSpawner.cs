@@ -27,6 +27,11 @@ namespace Chrobaki
             }
         }
 
+        public void AddBugManually()
+        {
+            bugsAlive++;
+        }
+        
         private IEnumerator SpawnBugs()
         {
             List<Bush> bushesToThrowBugsAt = new List<Bush>();
@@ -54,6 +59,7 @@ namespace Chrobaki
                 currentBug.StartCoroutine("Fly");
                 bush.hasBugOnIt = true;
                 bush.bugsOnTheBush.Add(currentBug);
+                bush.playerMarker.gameObject.SetActive(true);
                 bush.StartCoroutine("ReduceHealth");
                 yield return new WaitForSeconds(0.3f);
             }

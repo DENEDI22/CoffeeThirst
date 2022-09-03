@@ -14,11 +14,8 @@ namespace Chrobaki
         [SerializeField] private List<Transform> matkaPositions;
         private static readonly int IsUp = Animator.StringToHash("isUp");
         private static readonly int SpawnBugs = Animator.StringToHash("spawnBugs");
+        [SerializeField] private Rigidbody playerRB;
 
-        private void Start()
-        {
-            StartCoroutine(MatkaChangePosition());
-        }
 
         private IEnumerator MatkaChangePosition()
         {
@@ -27,6 +24,7 @@ namespace Chrobaki
             matkaUpDown.SetBool(IsUp, true);
             yield return new WaitForSeconds(matkaUpAnimDuration);
             bugSpawner.StartCoroutine("SpawnBugs");
+            playerRB.AddExplosionForce(100f, matkaOffset.position + Vector3.up * 2, 10f);
             matkaAnimator.SetTrigger(SpawnBugs);
             yield return new WaitForSeconds(matkaUpTime);
             matkaAnimator.SetTrigger(SpawnBugs);
