@@ -11,12 +11,16 @@ namespace Moles
         
         public void MovePlayer(InputAction.CallbackContext _ctx)
         {
-            playerRigidbody.velocity = _ctx.ReadValue<Vector2>().normalized * speed;
-        }
-
-        public void Aim(InputAction.CallbackContext _ctx)
-        {
-            
+            var movementVector = _ctx.ReadValue<Vector2>().normalized;
+            playerRigidbody.velocity = movementVector * speed;
+            if (movementVector.magnitude > 0)
+            {
+                playerAnimator.SetBool("StrafeMoving", true);
+            }
+            else
+            {
+                playerAnimator.SetBool("StrafeMoving", false);
+            }
         }
     }
 }

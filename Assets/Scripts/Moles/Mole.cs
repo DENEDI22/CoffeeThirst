@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel;
 using UnityEngine;
 
 namespace Moles
@@ -10,16 +9,23 @@ namespace Moles
         public Transform molesItemSpawnPoint;
         public Animator moleAnims;
         [SerializeField] private List<MolesItem> referenceMoleItems;
+        [SerializeField] private float moleDeathAnimDuration;
         
         public void Appear()
         {
             moleAnims.SetBool("isUp", true);
         }
 
-        public void Disappear() 
+        public void Die()
+        {
+            // moleAnims.SetTrigger("Die");
+            Invoke("Disappear", moleDeathAnimDuration);
+        }
+
+        public void Disappear()
         {
             Instantiate(molesItem.gameObject, molesItemSpawnPoint);
-            moleAnims.SetBool("isUp", false);
+            // moleAnims.SetBool("isUp", false);
         }
     }
 }
