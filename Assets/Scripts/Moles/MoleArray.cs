@@ -8,26 +8,51 @@ namespace Moles
 {
     public class MoleArray : MonoBehaviour
     {
-        [SerializeField] [HideInInspector] private List<Mole> moles = new List<Mole>();
-        [SerializeField] private float minDelay, maxDelay;
-        [SerializeField] private float minMoleStayTime, maxMoleStayTime;
+        [SerializeField] private List<Mole> freeMoles = new List<Mole>();
+        [SerializeField] private float minDelay, maxDelay; //pause between moles spawning
+        [SerializeField] private float minMoleStayTime, maxMoleStayTime; //time one mole stays above the ground
         [SerializeField] private int minMoleQuantity, maxMoleQuantity;
 
+        private List<Mole> molesInUse = new List<Mole>();
 
         private void OnValidate()
         {
-            moles = new List<Mole>();
-            moles.AddRange(FindObjectsOfType<Mole>());
+            freeMoles = new List<Mole>();
+            freeMoles.AddRange(FindObjectsOfType<Mole>());
         }
 
-        private IEnumerator SpawnMole()
+        private void Start()
         {
-            int moleQuantity = Random.Range(minMoleQuantity, maxMoleQuantity);
-            for (int i = 0; i < moleQuantity; i++)
+            StartCoroutine(MoleCycle());
+        }
+
+        private IEnumerator MoleCycle()
+        {
+            while (true)
             {
-                
+                int moleQuantity = Random.Range(minMoleQuantity, maxMoleQuantity);
+                for (int i = 0; i < moleQuantity; i++)
+                {
+                    SpawnMole();
+                }
+                yield return new WaitForSeconds(Random.Range(minDelay, maxDelay));
             }
-            yield break;
+        }
+
+        private void SpawnMole()
+        {
+            var mole = freeMoles[Random.Range(0, freeMoles.Count)];
+            mole.Appear();
+            mole.StartLifeCycle(Random.Range(minMoleStayTime, maxMoleStayTime));
+            freeMoles.Remove(mole);
+            molesInUse.Add(mole);
+            mole.onMoleDisappear.AddListener(MoleToFreeArray);
+        }
+
+        private void MoleToFreeArray(Mole _mole)
+        {
+            molesInUse.Remove(_mole);
+            freeMoles.Add(_mole);
         }
     }
 }

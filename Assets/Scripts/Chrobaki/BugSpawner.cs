@@ -11,8 +11,8 @@ namespace Chrobaki
         [SerializeField] private GameObject bug;
         [SerializeField] private int amountOfBugsToThrow;
         [SerializeField] private BushArray bushArray;
-        [SerializeField] private int bugsAlive = 0; 
-        
+        [SerializeField] public int bugsAlive { get; private set; }
+
         private void OnValidate()
         {
             bushArray = FindObjectOfType<BushArray>();
@@ -20,10 +20,13 @@ namespace Chrobaki
 
         public void BugDeath()
         {
+            ChrobakyTimer chrobakyTimer = FindObjectOfType<ChrobakyTimer>();
             bugsAlive--;
+            chrobakyTimer.UpdateTask();
             if (bugsAlive <= 0)
             {
-                FindObjectOfType<ChrobakyTimer>().StartCoroutine("MatkaChangePosition");
+                chrobakyTimer.StartCoroutine("MatkaChangePosition");
+                chrobakyTimer.waveCounter = 0;
             }
         }
 
@@ -31,7 +34,7 @@ namespace Chrobaki
         {
             bugsAlive++;
         }
-        
+
         private IEnumerator SpawnBugs()
         {
             List<Bush> bushesToThrowBugsAt = new List<Bush>();

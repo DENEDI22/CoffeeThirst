@@ -1,28 +1,40 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 
 namespace Chrobaki
 {
+    [RequireComponent(typeof(AudioSource))]
     public class Bug : MonoBehaviour
     {
         public Vector3 startingPoint, endingPoint;
         public float maxHeight, speed, groundLevel;
         public bool flyingInTheAir;
         [SerializeField] [HideInInspector] private ParticleSystem bugDeathParticles;
+        [SerializeField] [HideInInspector] private AudioSource bugDeathSound;
         [SerializeField] private AnimationCurve heightCurve, speedCurve;
+
         public Vector3 MiddleOfTheWay => new Vector3((startingPoint.x + endingPoint.x) / 2,
             (startingPoint.y + endingPoint.y) / 2, (startingPoint.z + endingPoint.z) / 2);
+
+        private void OnValidate()
+        {
+            bugDeathParticles = GetComponentInChildren<ParticleSystem>();
+            bugDeathSound = GetComponent<AudioSource>();
+        }
 
         public void BugDeath()
         {
             FindObjectOfType<BugSpawner>().BugDeath();
-            Destroy(gameObject);
+            GetComponentInChildren<SkinnedMeshRenderer>().enabled = false;
+            StartCoroutine(BugDeathCor());
         }
 
         private IEnumerator BugDeathCor()
         {
             bugDeathParticles.Play();
+            bugDeathSound.Play();
+            yield return new WaitForSecondsRealtime(bugDeathParticles.main.duration);
+            Destroy(gameObject);
             yield break;
         }
 

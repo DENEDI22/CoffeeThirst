@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Moles
 {
@@ -27,6 +26,7 @@ namespace Moles
             {
                 _collidedMole.Die();
             }
+
             Destroy(gameObject);
         }
     }

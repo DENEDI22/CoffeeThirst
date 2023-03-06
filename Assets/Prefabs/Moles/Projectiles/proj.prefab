@@ -127,5 +127,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0de841c8b8184977a180b85f7c336d12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startForce: 10
+  startForce: 12
   projectileRigidbody: {fileID: 6171519643169346254}
