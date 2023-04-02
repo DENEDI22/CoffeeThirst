@@ -114,6 +114,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   force: 10
   m_rigidbody: {fileID: -6106981277017793573}
+  m_findObjectOfType: {fileID: 0}
 --- !u!54 &-6106981277017793573
 Rigidbody:
   m_ObjectHideFlags: 0

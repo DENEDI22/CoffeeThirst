@@ -63,7 +63,7 @@ namespace Moles
 
         public void ShowTrajectory(Vector3 origin, Vector3 speed)
         {
-            Vector3[] points = new Vector3[10];
+            Vector3[] points = new Vector3[20];
             trajectoryRenderer.positionCount = points.Length;
 
             for (int i = 0; i < points.Length; i++)

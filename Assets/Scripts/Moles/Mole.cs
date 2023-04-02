@@ -33,15 +33,21 @@ namespace Moles
             m_holdsMoleItem = false;
             molesItem.GetComponent<Rigidbody>().isKinematic = false;
             molesItem.transform.SetParent(transform.root);
+            moleAnims.SetTrigger("Death");
             Invoke("Disappear", moleDeathAnimDuration);
         }
 
         public void Disappear()
         {
             onMoleDisappear.Invoke(this);
-            if (m_holdsMoleItem) molesItem.Disable();
-            molePositionAnims.SetBool("isUp", false); 
+            Invoke("DisableMoleItem", 2 * moleDeathAnimDuration);
+            molePositionAnims.SetBool("isUp", false);
             onMoleDisappear = new UnityEvent<Mole>();
+        }
+
+        private void DisableMoleItem()
+        {
+            if (m_holdsMoleItem) molesItem.Disable();
         }
 
         [HideInInspector] public UnityEvent<Mole> onMoleDisappear = new UnityEvent<Mole>();

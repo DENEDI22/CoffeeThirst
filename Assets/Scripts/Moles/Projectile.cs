@@ -6,6 +6,8 @@ namespace Moles
     public class Projectile : MonoBehaviour
     {
         [SerializeField] private float startForce;
+        [SerializeField] private float rotationRandomForce = 5;
+        
         [SerializeField] [HideInInspector] private Rigidbody projectileRigidbody;
 
         private void OnValidate()
@@ -18,6 +20,7 @@ namespace Moles
             projectileRigidbody.isKinematic = false;
             transform.SetParent(transform.parent.parent);
             projectileRigidbody.AddForce(transform.forward * startForce, ForceMode.Impulse);
+            projectileRigidbody.AddTorque(Random.onUnitSphere * rotationRandomForce);
         }
 
         public void OnCollisionEnter(Collision collision)
