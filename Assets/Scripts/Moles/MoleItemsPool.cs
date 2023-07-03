@@ -29,18 +29,10 @@ namespace Moles
 
         public MolesItem SelectMoleItem()
         {
-            try
-            {
-                MolesItem selectMoleItem = freeMoleItems[Random.Range(0, freeMoleItems.Count-1)];
-                freeMoleItems.Remove(selectMoleItem);
-                inUseMoleItems.Add(selectMoleItem);
-                return selectMoleItem;
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                throw;
-            }
+            MolesItem selectMoleItem = freeMoleItems[Random.Range(0, freeMoleItems.Count-1)];
+            freeMoleItems.Remove(selectMoleItem);
+            inUseMoleItems.Add(selectMoleItem);
+            return selectMoleItem;
         }
     }
 }

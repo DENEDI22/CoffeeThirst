@@ -13,7 +13,10 @@ namespace RythmGame
         public void Initialize(BrickParameters _parameters)
         {
             brickParameters = _parameters;
+            Invoke("TimeDeath", 12);
         }
+
+        private void TimeDeath() => Destroy(gameObject);
         
         public void FixedUpdate()
         {
@@ -25,7 +28,7 @@ namespace RythmGame
             foreach (var x in brickParts)
             {
                 x.isKinematic = false;
-                x.AddExplosionForce(500, ExplosionPoint.position, 10);
+                x.AddExplosionForce(800, ExplosionPoint.position, 10);
             }
         }
 

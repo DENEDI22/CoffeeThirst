@@ -16,7 +16,7 @@ namespace Moles
         {
             if (other.gameObject.TryGetComponent(out MolesItem molesItem))
             {
-                molesItem.gameObject.SetActive(false);
+                molesItem.Disable();
                 m_winLooseLogic.CatchMoleObject();
             }
         }

@@ -8,7 +8,7 @@ namespace RythmGame
     public class BricksSpawner : MonoBehaviour
     {
         [SerializeField] private BrickSpawnerMusicPattern pattern;
-        [SerializeField] private GameObject referenceBrick;
+        [SerializeField] private List<GameObject> referenceBricks;
         [SerializeField] private List<Transform> spawningPoints;
 
         private void Start()
@@ -26,6 +26,6 @@ namespace RythmGame
             yield break;
         }
 
-        private void SpawnBrick(BrickSpawningParams _params) => Instantiate(referenceBrick, spawningPoints[_params.numberOfTheTrack]).GetComponent<Brick>().Initialize(_params.brickParameters);
+        private void SpawnBrick(BrickSpawningParams _params) => Instantiate(referenceBricks[_params.numberOfTheTrack], spawningPoints[_params.numberOfTheTrack]).GetComponent<Brick>().Initialize(_params.brickParameters);
     }
 }

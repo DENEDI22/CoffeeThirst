@@ -7,6 +7,7 @@ namespace RythmGame
     [CreateAssetMenu(fileName = "NewBrickPattern", menuName = "RythmGame/Brick pattern", order = 0)]
     public class BrickSpawnerMusicPattern : ScriptableObject
     {
+        public float startDelay;
         public List<BrickSpawningParams> brickSpawningParams;
     }
     

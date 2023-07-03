@@ -1,0 +1,6 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:Label text="Bricks Generator by Broken Dreams Studio" style="-unity-text-align: middle-center; height: 86px; width: 351px;" />
+    <ui:TextField picking-mode="Ignore" label="Path to JSON with labels" value="Path" text="Path" name="JsonPathTextField" style="align-items: auto; justify-content: space-between;" />
+    <ui:TextField picking-mode="Ignore" label="New pattern name" value="YourFancyName" text="YourFancyName" name="NewPatternName" />
+    <ui:Button text="GENERATE!!!" display-tooltip-when-elided="true" name="GenerateButton" style="height: 102px; width: 344px; -unity-text-align: middle-center; white-space: nowrap; top: 10px;" />
+</ui:UXML>

@@ -28,8 +28,8 @@ namespace Moles
 
         public void Disable()
         {
-            m_rigidbody.isKinematic = true;
             m_findObjectOfType.ReturnToPool(this);
+            m_rigidbody.isKinematic = true;
         }
     }
 }
