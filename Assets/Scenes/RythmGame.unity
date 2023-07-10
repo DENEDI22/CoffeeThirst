@@ -500,7 +500,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: b3b72bdd933766d42bf9d44aa9b2d717, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.7
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -659,7 +659,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1cf4714c6784441f98a52332b8cea93d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pattern: {fileID: 11400000, guid: bc10099753583eb4d9ed4f70db70585c, type: 2}
+  pattern: {fileID: 11400000, guid: c7522741f695e314f90c4bf25ba6adef, type: 2}
   referenceBricks:
   - {fileID: 8890222999811764622, guid: 7044ade7408ce134e8e2392069f458a7, type: 3}
   - {fileID: 7478187251225194396, guid: 36a2c5b672d451049938faad1196de6e, type: 3}
@@ -972,7 +972,7 @@ Transform:
   m_GameObject: {fileID: 624404019}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 49.5, y: 1.23, z: 13.63}
-  m_LocalScale: {x: 1.8004, y: 1, z: 2}
+  m_LocalScale: {x: 2.318555, y: 1, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -1465,7 +1465,7 @@ Transform:
   m_GameObject: {fileID: 935040904}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 49.5, y: 1.23, z: 22.26}
-  m_LocalScale: {x: 1.8004, y: 1, z: 2}
+  m_LocalScale: {x: 2.318555, y: 1, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -1714,7 +1714,7 @@ Transform:
   m_GameObject: {fileID: 998716766}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 49.5, y: 1.23, z: 16.4}
-  m_LocalScale: {x: 1.8004, y: 1, z: 2}
+  m_LocalScale: {x: 2.318555, y: 1, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -2726,7 +2726,7 @@ Transform:
   m_GameObject: {fileID: 2014953195}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 49.5, y: 1.23, z: 19.208122}
-  m_LocalScale: {x: 1.8004, y: 1, z: 2}
+  m_LocalScale: {x: 2.318555, y: 1, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
