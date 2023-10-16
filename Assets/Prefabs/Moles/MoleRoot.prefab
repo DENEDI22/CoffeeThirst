@@ -25,13 +25,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6556592476208839801}
+  serializedVersion: 2
   m_LocalRotation: {x: 0.00000025288108, y: 0.7071067, z: 0.7071068, w: -0.00000025288105}
   m_LocalPosition: {x: -0.06, y: -0.25, z: 0}
   m_LocalScale: {x: 121.028465, y: 121.02845, z: 121.02845}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6697812677146714439}
-  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &1457620538065484322
 MeshFilter:
@@ -106,13 +106,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6697812676591418766}
+  serializedVersion: 2
   m_LocalRotation: {x: 0.49999985, y: -0.49999934, z: -0.50000066, w: 0.5000003}
-  m_LocalPosition: {x: 0.057, y: 0.27, z: -0.317}
+  m_LocalPosition: {x: 0.057, y: 0.184, z: -0.317}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6697812677146714439}
-  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: -90}
 --- !u!1 &6697812677146714435
 GameObject:
@@ -141,6 +141,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6697812677146714435}
+  serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1.5999999, y: 1.5999999, z: 1.5999999}
@@ -150,7 +151,6 @@ Transform:
   - {fileID: 4762861680220748040}
   - {fileID: 6697812676591418769}
   m_Father: {fileID: 6697812678092912785}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &6697812677146714436
 MeshFilter:
@@ -210,8 +210,17 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6697812677146714435}
   m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
   m_IsTrigger: 0
+  m_ProvidesContacts: 0
   m_Enabled: 1
+  serializedVersion: 2
   m_Radius: 0.5
   m_Height: 2
   m_Direction: 1
@@ -261,6 +270,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6697812678092912782}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -5.962, y: 2.53, z: 17.305}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -268,11 +278,10 @@ Transform:
   m_Children:
   - {fileID: 6697812677146714439}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &6697812678092912784
 Animator:
-  serializedVersion: 4
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -289,12 +298,14 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1001 &7465868605885310835
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 6697812677146714439}
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: c20e11ffcf5cfbf45b34fdbbacc2270b, type: 3}
@@ -350,6 +361,12 @@ PrefabInstance:
       value: Mole (1)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: c20e11ffcf5cfbf45b34fdbbacc2270b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1540563619039282656}
   m_SourcePrefab: {fileID: 100100000, guid: c20e11ffcf5cfbf45b34fdbbacc2270b, type: 3}
 --- !u!4 &6923913400144986264 stripped
 Transform:
@@ -363,7 +380,7 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
 --- !u!95 &1540563619039282656
 Animator:
-  serializedVersion: 4
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -380,4 +397,5 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

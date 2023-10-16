@@ -23,6 +23,7 @@ namespace Moles
             freeMoleItems.Add(_itemToReturn);
             inUseMoleItems.Remove(_itemToReturn);
             _itemToReturn.transform.position = Vector3.zero;
+            _itemToReturn.transform.rotation = Quaternion.identity;
             _itemToReturn.transform.SetParent(transform);
             _itemToReturn.gameObject.SetActive(false);
         }

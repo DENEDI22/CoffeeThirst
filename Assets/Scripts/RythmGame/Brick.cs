@@ -9,10 +9,12 @@ namespace RythmGame
         [SerializeField] public BrickParameters brickParameters;
         [SerializeField] private Transform ExplosionPoint;
         [SerializeField] private List<Rigidbody> brickParts;
-
+        [HideInInspector] public bool isBroken = false;
+        public DateTime timeOfSpawn;
         public void Initialize(BrickParameters _parameters)
         {
             brickParameters = _parameters;
+            timeOfSpawn = DateTime.Now;
             Invoke("TimeDeath", 12);
         }
 
@@ -25,6 +27,7 @@ namespace RythmGame
 
         public void Break()
         {
+            isBroken = true;
             foreach (var x in brickParts)
             {
                 x.isKinematic = false;
@@ -37,6 +40,7 @@ namespace RythmGame
             
         }
     }
+    
     [Serializable]
     public class BrickParameters
     {

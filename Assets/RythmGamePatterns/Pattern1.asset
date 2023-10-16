@@ -16,7 +16,7 @@ MonoBehaviour:
   brickSpawningParams:
   - brickParameters:
       soundType: 0
-      speed: 11.5
+      speed: 5.75
     nextParamDelay: 2.197
     numberOfTheTrack: 0
   - brickParameters:

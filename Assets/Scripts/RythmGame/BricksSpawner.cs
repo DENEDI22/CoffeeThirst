@@ -23,9 +23,13 @@ namespace RythmGame
                 SpawnBrick(item);
                 yield return new WaitForSeconds(item.nextParamDelay);
             }
-            yield break;
+
+            yield return new WaitForSeconds(7);
+            FindObjectOfType<EndScreenScript>().GameEnd();
         }
 
-        private void SpawnBrick(BrickSpawningParams _params) => Instantiate(referenceBricks[_params.numberOfTheTrack], spawningPoints[_params.numberOfTheTrack]).GetComponent<Brick>().Initialize(_params.brickParameters);
+        private void SpawnBrick(BrickSpawningParams _params) =>
+            Instantiate(referenceBricks[_params.numberOfTheTrack], spawningPoints[_params.numberOfTheTrack])
+                .GetComponent<Brick>().Initialize(_params.brickParameters);
     }
 }

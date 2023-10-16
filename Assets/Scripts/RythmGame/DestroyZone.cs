@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -8,19 +9,26 @@ namespace RythmGame
 {
     public class DestroyZone : MonoBehaviour
     {
-        public Brick brickInZone;
+        public Queue<Brick> brickInZone = new Queue<Brick>();
+        public List<Brick> brickInSafeZone = new List<Brick>();
+        public List<Brick> brickInPerfectZone = new List<Brick>();
         public AudioClip MissclickAudioClip;
         public AudioSource soundsAudioSource;
         [SerializeField] private Animator bladeAnimator;
         [SerializeField] private float bladeAnimationDuration;
-
         public List<AudioClip> soundsOnBreak;
+        [HideInInspector] [SerializeField] private ScoreCounter m_scoreCounter;
+
+        private void OnValidate()
+        {
+            m_scoreCounter = FindObjectOfType<ScoreCounter>();
+        }
 
         public void OnTriggerEnter(Collider other)
         {
             if (other.transform.parent.TryGetComponent(out Brick brick))
             {
-                brickInZone = brick;
+                if (!brickInZone.Contains(brick)) brickInZone.Enqueue(brick);
             }
         }
 
@@ -28,36 +36,63 @@ namespace RythmGame
         {
             if (_ctx.performed)
             {
-                StartCoroutine(Slash());
+                if (brickInZone.Count > 0) StartCoroutine(Slash(brickInZone.Dequeue()));
+                else
+                {
+                    m_scoreCounter.AddScore(-300);
+                    MissClick();
+                }
             }
         }
 
-        private IEnumerator Slash()
+        private IEnumerator Slash(Brick _brickData)
         {
-            soundsAudioSource.PlayOneShot(brickInZone
-                ? soundsOnBreak[(int)brickInZone.brickParameters.soundType]
+            soundsAudioSource.PlayOneShot(_brickData
+                ? soundsOnBreak[(int)_brickData.brickParameters.soundType]
                 : MissclickAudioClip);
             bladeAnimator.SetTrigger("Hit");
-            if (brickInZone)
+            if (_brickData && !_brickData.isBroken)
             {
-                var tmp = brickInZone;
-                yield return new WaitForSeconds(0.3f);
-                tmp.Break();
-            } 
+                var tmp = _brickData;
+                if (brickInPerfectZone.Contains(_brickData))
+                {
+                    brickInPerfectZone.Remove(_brickData);
+                    brickInSafeZone.Remove(_brickData);
+                    yield return new WaitForSeconds(0.3f);
+                    m_scoreCounter.AddScore(500);
+                    tmp.Break();
+                }
+                else if (brickInSafeZone.Contains(_brickData))
+                {
+                    float delay = Mathf.Abs(transform.position.x - _brickData.transform.position.x) /
+                                  _brickData.brickParameters.speed;
+                    brickInSafeZone.Remove(_brickData);
+                    yield return new WaitForSeconds(delay + 0.3f);
+                    m_scoreCounter.AddScore(250);
+                    tmp.Break();
+                    
+                }
+                else
+                {
+                    yield return new WaitForSeconds(0.3f);
+                    m_scoreCounter.AddScore(100);
+                    tmp.Break();
+                }
+            }
         }
 
         public void MissClick()
         {
+            bladeAnimator.SetTrigger("Hit");
             soundsAudioSource.PlayOneShot(MissclickAudioClip);
         }
 
         public void OnTriggerExit(Collider other)
         {
-            if (other.transform.parent.TryGetComponent(out Brick brick) && brick == brickInZone)
+            if (other.transform.parent.TryGetComponent(out Brick brick) && brickInZone.Contains(brick))
             {
-                brickInZone.Miss();
+                brickInZone.Dequeue();
             }
-            brickInZone = null;
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Utilities;
 
 namespace Moles
@@ -39,6 +40,11 @@ namespace Moles
         {
             lossPanel.SetActive(true);
             Time.timeScale = 0;
+        }
+        
+        public void PlayAgain()
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
     }
 }

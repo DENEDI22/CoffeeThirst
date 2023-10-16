@@ -7,6 +7,7 @@ namespace Moles
     {
         [SerializeField] private float startForce;
         [SerializeField] private float rotationRandomForce = 5;
+        [SerializeField] private ParticleSystem m_projectileDestroyParticles;
         
         [SerializeField] [HideInInspector] private Rigidbody projectileRigidbody;
 
@@ -29,7 +30,7 @@ namespace Moles
             {
                 _collidedMole.Die();
             }
-
+            
             Destroy(gameObject);
         }
     }

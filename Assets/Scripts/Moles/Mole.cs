@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.Events;
 
 namespace Moles
@@ -16,16 +17,23 @@ namespace Moles
         {
             Invoke("Disappear", _lifeTime);
         }
-        
+
+        private void FixedUpdate()
+        {
+            if (m_holdsMoleItem)
+            {
+                molesItem.transform.localPosition = Vector3.zero;
+            }
+        }
+
         public void Appear()
         {
-            molePositionAnims.SetBool("isUp", true);
+            
             m_holdsMoleItem = true;
             molesItem = moleItemsPool.SelectMoleItem();
-            Transform molesItemTransform;
-            (molesItemTransform = molesItem.transform).SetParent(molesItemSpawnPoint.transform, false);
-            molesItemTransform.localPosition = Vector3.zero;
             molesItem.gameObject.SetActive(true);
+            molesItem.transform.SetParent(molesItemSpawnPoint.transform, false);
+            molePositionAnims.SetBool("isUp", true);
         }
 
         public void Die()
