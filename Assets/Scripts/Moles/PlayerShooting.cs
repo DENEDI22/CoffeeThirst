@@ -64,12 +64,12 @@ namespace Moles
         public void ShowTrajectory(Vector3 origin, Vector3 speed)
         {
             List<Vector3> points = new List<Vector3>();
-            for (int i = 0; i < 21; i++)
+            for (int i = 0; i < 41; i++)
             {
                 float time = i * 0.05f;
                 points.Add(origin + speed * time + Physics.gravity * (time * time) / 2f);
                 if (i > 0 && Physics.Raycast(points[i - 1], points[i] - points[i - 1], out RaycastHit hitInfo,
-                        Vector3.Distance(points[i-1], points[i]), LayerMask.GetMask("Default")))
+                        Vector3.Distance(points[i-1], points[i]), LayerMask.GetMask("AimGuidance")))
                 {
                     points[i] = hitInfo.point;
                     break;

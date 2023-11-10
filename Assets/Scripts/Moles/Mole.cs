@@ -33,6 +33,7 @@ namespace Moles
             molesItem = moleItemsPool.SelectMoleItem();
             molesItem.gameObject.SetActive(true);
             molesItem.transform.SetParent(molesItemSpawnPoint.transform, false);
+            molesItem.m_rigidbody.isKinematic = true;
             molePositionAnims.SetBool("isUp", true);
         }
 
@@ -48,7 +49,8 @@ namespace Moles
         public void Disappear()
         {
             onMoleDisappear.Invoke(this);
-            Invoke("DisableMoleItem", 2 * moleDeathAnimDuration);
+            Invoke("DisableMoleItem", moleDeathAnimDuration);
+            StopAllCoroutines();
             molePositionAnims.SetBool("isUp", false);
             onMoleDisappear = new UnityEvent<Mole>();
         }
@@ -56,6 +58,7 @@ namespace Moles
         private void DisableMoleItem()
         {
             if (m_holdsMoleItem) molesItem.Disable();
+            m_holdsMoleItem = false;
         }
 
         [HideInInspector] public UnityEvent<Mole> onMoleDisappear = new UnityEvent<Mole>();

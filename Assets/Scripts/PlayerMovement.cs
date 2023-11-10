@@ -1,3 +1,4 @@
+using System;
 using UnityEngine.InputSystem;
 using UnityEngine;
 
@@ -7,10 +8,11 @@ public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] float rotationSmoothSpeed = 1f;
     [SerializeField] private Animator characterBodyAnimator;
-    
+
     [SerializeField] [HideInInspector] CharController player;
     [SerializeField] [HideInInspector] PlayerInput playerInput;
-    
+
+
     Vector2 moveDir;
     Vector3 lookDir() => new Vector3(moveDir.x, 0, moveDir.y);
     float lookAngle;
@@ -33,8 +35,9 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if(moveDir != Vector2.zero)transform.rotation = Quaternion.RotateTowards(transform.rotation,
-            Quaternion.LookRotation(lookDir().normalized, Vector3.up), rotationSmoothSpeed * Time.fixedDeltaTime);
+        if (moveDir != Vector2.zero)
+            transform.rotation = Quaternion.RotateTowards(transform.rotation,
+                Quaternion.LookRotation(lookDir().normalized, Vector3.up), rotationSmoothSpeed * Time.fixedDeltaTime);
         player.Move(new Vector3(moveDir.x, 0, moveDir.y), player.speed);
         characterBodyAnimator.SetBool(Walking, moveDir != Vector2.zero);
     }
