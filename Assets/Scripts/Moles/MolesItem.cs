@@ -37,7 +37,7 @@ namespace Moles
         private IEnumerator LifeTimeEnd()
         {
             yield return new WaitForSeconds(lifetime);
-            Disable();
+            Destroy(gameObject);
         }
 
         public void Disable()

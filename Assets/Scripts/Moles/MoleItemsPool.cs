@@ -13,13 +13,13 @@ namespace Moles
 
         private void Awake()
         {
-            for (int i = 0; i < poolSize; i++)
-                freeMoleItems.Add(Instantiate(moleItemsVariants[Random.Range(0, moleItemsVariants.Count)].gameObject,
-                    transform).GetComponent<MolesItem>());
+            // for (int i = 0; i < poolSize; i++)
+                // freeMoleItems.Add(Instantiate(moleItemsVariants[Random.Range(0, moleItemsVariants.Count)].gameObject,
+                    // transform).GetComponent<MolesItem>());
         }
 
         public void ReturnToPool(MolesItem _itemToReturn)
-        { 
+        {
             freeMoleItems.Add(_itemToReturn);
             inUseMoleItems.Remove(_itemToReturn);
             _itemToReturn.transform.position = Vector3.zero;
@@ -30,9 +30,8 @@ namespace Moles
 
         public MolesItem SelectMoleItem()
         {
-            MolesItem selectMoleItem = freeMoleItems[Random.Range(0, freeMoleItems.Count-1)];
-            freeMoleItems.Remove(selectMoleItem);
-            inUseMoleItems.Add(selectMoleItem);
+            MolesItem selectMoleItem = Instantiate(moleItemsVariants[Random.Range(0, moleItemsVariants.Count)]
+                .gameObject.GetComponent<MolesItem>());
             return selectMoleItem;
         }
     }
