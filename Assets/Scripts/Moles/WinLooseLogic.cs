@@ -17,11 +17,14 @@ namespace Moles
         private void Start()
         {
             Time.timeScale = 1;
+            Cursor.lockState = CursorLockMode.Locked;
         }
 
         public void Win()
         {
             winPanel.SetActive(true);
+            Cursor.lockState = CursorLockMode.None;
+            GameObject.Destroy(FindObjectOfType<PauseMenuController>());
             Time.timeScale = 0;
         }
 
@@ -39,12 +42,19 @@ namespace Moles
         public void Loose()
         {
             lossPanel.SetActive(true);
+            Cursor.lockState = CursorLockMode.None;
+            GameObject.Destroy(FindObjectOfType<PauseMenuController>());
             Time.timeScale = 0;
         }
         
         public void PlayAgain()
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
+        
+        public void Exit()
+        {
+            Application.Quit();
         }
     }
 }

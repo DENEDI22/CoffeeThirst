@@ -13,6 +13,7 @@ namespace Moles
         [SerializeField] private MoleItemsPool moleItemsPool;
         [SerializeField] private float moleDeathAnimDuration;
         private bool m_holdsMoleItem = false;
+
         public void StartLifeCycle(float _lifeTime)
         {
             Invoke("Disappear", _lifeTime);
@@ -40,6 +41,8 @@ namespace Moles
         public void Die()
         {
             m_holdsMoleItem = false;
+            // FindObjectOfType<MolesKillcount>().MoleDied(); Feature deactivated
+            FindObjectOfType<MoleScreamAudioPlayer>().MoleDied();
             molesItem.GetComponent<Rigidbody>().isKinematic = false;
             molesItem.transform.SetParent(transform.root);
             moleAnims.SetTrigger("Death");

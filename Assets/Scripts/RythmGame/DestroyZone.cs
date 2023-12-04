@@ -9,7 +9,7 @@ namespace RythmGame
 {
     public class DestroyZone : MonoBehaviour
     {
-        public Queue<Brick> brickInZone = new Queue<Brick>();
+        private Queue<Brick> brickInZone = new Queue<Brick>();
         public List<Brick> brickInSafeZone = new List<Brick>();
         public List<Brick> brickInPerfectZone = new List<Brick>();
         public AudioClip MissclickAudioClip;
@@ -26,7 +26,8 @@ namespace RythmGame
 
         public void OnTriggerEnter(Collider other)
         {
-            if (other.transform.parent.TryGetComponent(out Brick brick))
+            Debug.Log(other.name);
+            if (other.TryGetComponent(out Brick brick))
             {
                 if (!brickInZone.Contains(brick)) brickInZone.Enqueue(brick);
             }
@@ -47,37 +48,33 @@ namespace RythmGame
 
         private IEnumerator Slash(Brick _brickData)
         {
-            soundsAudioSource.PlayOneShot(_brickData
-                ? soundsOnBreak[(int)_brickData.brickParameters.soundType]
-                : MissclickAudioClip);
             bladeAnimator.SetTrigger("Hit");
             if (_brickData && !_brickData.isBroken)
             {
+                soundsAudioSource.PlayOneShot(_brickData
+                    ? soundsOnBreak[(int)_brickData.brickParameters.soundType]
+                    : MissclickAudioClip);
                 var tmp = _brickData;
                 if (brickInPerfectZone.Contains(_brickData))
                 {
                     brickInPerfectZone.Remove(_brickData);
                     brickInSafeZone.Remove(_brickData);
-                    yield return new WaitForSeconds(0.3f);
+                    yield return new WaitForSeconds(0.08f);
                     m_scoreCounter.AddScore(500);
-                    tmp.Break();
+
                 }
                 else if (brickInSafeZone.Contains(_brickData))
                 {
-                    float delay = Mathf.Abs(transform.position.x - _brickData.transform.position.x) /
-                                  _brickData.brickParameters.speed;
                     brickInSafeZone.Remove(_brickData);
-                    yield return new WaitForSeconds(delay + 0.3f);
+                    yield return new WaitForSeconds(0.08f);
                     m_scoreCounter.AddScore(250);
-                    tmp.Break();
-                    
                 }
                 else
                 {
-                    yield return new WaitForSeconds(0.3f);
+                    yield return new WaitForSeconds(0.08f);
                     m_scoreCounter.AddScore(100);
-                    tmp.Break();
                 }
+                tmp.Break();
             }
         }
 
@@ -89,7 +86,7 @@ namespace RythmGame
 
         public void OnTriggerExit(Collider other)
         {
-            if (other.transform.parent.TryGetComponent(out Brick brick) && brickInZone.Contains(brick))
+            if (other.TryGetComponent(out Brick brick) && !brick.isBroken)
             {
                 brickInZone.Dequeue();
             }

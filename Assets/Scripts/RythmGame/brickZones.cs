@@ -12,7 +12,6 @@ namespace RythmGame
         
         private void OnValidate()
         {
-            parentZone = GetComponentInParent<DestroyZone>();
             if (safeZone == perfectZone)
             {
                 Debug.LogError("Zone Can't be safe and Perfect at the same time");
@@ -20,7 +19,7 @@ namespace RythmGame
         }
         private void OnTriggerEnter(Collider other)
         {
-            if (other.transform.parent.TryGetComponent(out Brick _brick))
+            if (other.TryGetComponent(out Brick _brick))
             {
                 if (safeZone)
                 {
@@ -34,7 +33,7 @@ namespace RythmGame
         }
         private void OnTriggerExit(Collider other)
         {
-            if (other.transform.parent.TryGetComponent(out Brick _brick))
+            if (other.TryGetComponent(out Brick _brick))
             {
                 if (safeZone)
                 {

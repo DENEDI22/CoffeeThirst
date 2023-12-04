@@ -27,7 +27,7 @@ namespace RythmGame
         {
             score += _scoreMod;
             TextMeshPro hitText = hitDisplay.Dequeue();
-            hitText.renderer.material.color = _scoreMod < 0 ? Color.red : Color.green;
+            hitText.color = _scoreMod < 0 ? Color.red : Color.green;
             hitText.text = _scoreMod.ToString();
             Animator hitAnimator = hitAnimation.Dequeue();
             scoreDisplay.text = score.ToString();
