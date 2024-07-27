@@ -26,9 +26,12 @@ public class MovementLockParameters
 public class CharController : MonoBehaviour
 {
     [HideInInspector] [SerializeField] public Rigidbody rb;
-
+    [SerializeField] float rotationSmoothSpeed = 1f;
     [Header("General movement")] public float speed = 10f;
+    [SerializeField] Camera m_camera;
     [SerializeField] private MovementLockParameters movementLockParameters;
+    private Vector3 m_movementDirection;
+    [SerializeField] private bool isCursorLocked;
 
 
     private void OnValidate()
@@ -36,45 +39,71 @@ public class CharController : MonoBehaviour
         rb = gameObject.GetComponent<Rigidbody>();
     }
 
+    public void FixedUpdate()
+    {
+        if (m_movementDirection != Vector3.zero)
+            transform.rotation = Quaternion.RotateTowards(transform.rotation,
+                Quaternion.LookRotation(m_movementDirection.normalized, Vector3.up),
+                rotationSmoothSpeed * Time.fixedDeltaTime);
+        transform.rotation.SetLookRotation(new Vector3(0, transform.rotation.eulerAngles.y, 0));
+    }
+
+    private void Start()
+    {
+        if (isCursorLocked)
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+        }
+    }
+
     public void Move(Vector3 direction, float amount)
     {
-        Vector3 newVel = direction * amount;
+        var forward = m_camera.transform.forward;
+        var right = m_camera.transform.right;
+
+        forward.y = 0f;
+        right.y = 0f;
+        forward.Normalize();
+        right.Normalize();
+
+        m_movementDirection = direction.x * right + direction.z * forward;
+        m_movementDirection *= amount;
         if (movementLockParameters.lockX)
         {
-            if (transform.position.x < movementLockParameters.lockXValues.x && newVel.x < 0)
+            if (transform.position.x < movementLockParameters.lockXValues.x && m_movementDirection.x < 0)
             {
-                newVel.x = 0;
+                m_movementDirection.x = 0;
             }
-            else if (transform.position.x > movementLockParameters.lockXValues.y && newVel.x > 0)
+            else if (transform.position.x > movementLockParameters.lockXValues.y && m_movementDirection.x > 0)
             {
-                newVel.x = 0;
+                m_movementDirection.x = 0;
             }
         }
 
         if (movementLockParameters.lockY)
         {
-            if (transform.position.y < movementLockParameters.lockYValues.x && newVel.y < 0)
+            if (transform.position.y < movementLockParameters.lockYValues.x && m_movementDirection.y < 0)
             {
-                newVel.y = 0;
+                m_movementDirection.y = 0;
             }
-            else if (transform.position.y > movementLockParameters.lockYValues.y && newVel.y > 0)
+            else if (transform.position.y > movementLockParameters.lockYValues.y && m_movementDirection.y > 0)
             {
-                newVel.y = 0;
+                m_movementDirection.y = 0;
             }
         }
 
         if (movementLockParameters.lockZ)
         {
-            if (transform.position.z < movementLockParameters.lockZValues.x && newVel.z < 0)
+            if (transform.position.z < movementLockParameters.lockZValues.x && m_movementDirection.z < 0)
             {
-                newVel.z = 0;
+                m_movementDirection.z = 0;
             }
-            else if (transform.position.z > movementLockParameters.lockZValues.y && newVel.z > 0)
+            else if (transform.position.z > movementLockParameters.lockZValues.y && m_movementDirection.z > 0)
             {
-                newVel.z = 0;
+                m_movementDirection.z = 0;
             }
         }
 
-        rb.velocity = new Vector3(newVel.x, rb.velocity.y, newVel.z);
+        rb.velocity = new Vector3(m_movementDirection.x, rb.velocity.y, m_movementDirection.z);
     }
 }

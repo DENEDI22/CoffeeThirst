@@ -10,10 +10,11 @@ namespace RythmGame
         [SerializeField] private Transform ExplosionPoint;
         [SerializeField] private List<Rigidbody> brickParts;
         [HideInInspector] public bool isBroken = false;
+        [SerializeField] private ParticleSystem flinders;
         public void Initialize(BrickParameters _parameters)
         {
             brickParameters = _parameters;
-            Invoke("TimeDeath", 10);
+            Invoke("TimeDeath", 2.8f);
         }
 
         private void TimeDeath() => Destroy(gameObject);
@@ -26,6 +27,7 @@ namespace RythmGame
         public void Break()
         {
             isBroken = true;
+            flinders.Play();
             foreach (var x in brickParts)
             {
                 x.isKinematic = false;

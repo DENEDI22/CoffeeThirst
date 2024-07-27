@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace RythmGame
 {
@@ -9,13 +10,14 @@ namespace RythmGame
     {
         public float startDelay;
         public List<BrickSpawningParams> brickSpawningParams;
+        public float gamespeedMultiplyer = 1;
     }
     
     [Serializable]
     public class BrickSpawningParams
     {
         public BrickParameters brickParameters;
-        public float nextParamDelay;
+        [FormerlySerializedAs("nextParamDelay")] public float nextParamTime;
         public int numberOfTheTrack;
     }
 }

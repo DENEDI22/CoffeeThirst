@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74b22b33dd9b4a7292af6aff0c7a2e01, type: 3}
+  m_Name: The streets are waiting
+  m_EditorClassIdentifier: 
+  brickSpawnerMusicPattern: {fileID: 11400000, guid: 1d987d81807493640a54614b908fdc88, type: 2}
+  audioClip: {fileID: 8300000, guid: b3b72bdd933766d42bf9d44aa9b2d717, type: 3}
+  drumSamples:
+  - {fileID: 8300000, guid: 6d7e614b727092647be8970beb391cd3, type: 3}
+  - {fileID: 8300000, guid: e315686be677a444982589f424d11e2e, type: 3}
+  - {fileID: 8300000, guid: 9b2067885bd0f9c4d8972eab56b8c681, type: 3}
+  - {fileID: 8300000, guid: 3ee24e4f00670d743a97c4160061241f, type: 3}
+  animationSpeedMultiplier: 1

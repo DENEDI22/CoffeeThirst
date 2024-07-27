@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -35,7 +33,7 @@ namespace RythmGame
 
         public void BreakButtonPress(InputAction.CallbackContext _ctx)
         {
-            if (_ctx.performed)
+            if (_ctx.started)
             {
                 if (brickInZone.Count > 0) StartCoroutine(Slash(brickInZone.Dequeue()));
                 else
@@ -59,19 +57,19 @@ namespace RythmGame
                 {
                     brickInPerfectZone.Remove(_brickData);
                     brickInSafeZone.Remove(_brickData);
-                    yield return new WaitForSeconds(0.08f);
+                    yield return new WaitForSeconds(0.04f);
                     m_scoreCounter.AddScore(500);
 
                 }
                 else if (brickInSafeZone.Contains(_brickData))
                 {
                     brickInSafeZone.Remove(_brickData);
-                    yield return new WaitForSeconds(0.08f);
+                    yield return new WaitForSeconds(0.04f);
                     m_scoreCounter.AddScore(250);
                 }
                 else
                 {
-                    yield return new WaitForSeconds(0.08f);
+                    yield return new WaitForSeconds(0.04f);
                     m_scoreCounter.AddScore(100);
                 }
                 tmp.Break();

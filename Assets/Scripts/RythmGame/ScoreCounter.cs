@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace RythmGame
 {
-    public class ScoreCounter : MonoBehaviour
+    internal class ScoreCounter : MonoBehaviour
     {
         public int score { get; private set; }
         [SerializeField] private TextMeshProUGUI scoreDisplay;

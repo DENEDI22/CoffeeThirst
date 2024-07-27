@@ -7,6 +7,7 @@ TagManager:
   - Bush
   - Bug
   - Matka
+  - Floor
   layers:
   - Default
   - TransparentFX
@@ -21,7 +22,7 @@ TagManager:
   - IgnoreProjectiles
   - AimGuidance
   - Triggers
-  - 
+  - IgnoreCamera
   - 
   - 
   - 

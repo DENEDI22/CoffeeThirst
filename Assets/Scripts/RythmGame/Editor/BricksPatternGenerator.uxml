@@ -1,6 +1,7 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <ui:Label text="Bricks Generator by Broken Dreams Studio" style="-unity-text-align: middle-center; height: 86px; width: 351px;" />
+    <ui:Label text="Bricks Generator by Broken Dreams Studio" style="justify-content: space-between; align-self: center; margin-top: 14px; margin-bottom: 14px;" />
     <ui:TextField picking-mode="Ignore" label="Path to JSON with labels" value="Path" text="Path" name="JsonPathTextField" style="align-items: auto; justify-content: space-between;" />
-    <ui:TextField picking-mode="Ignore" label="New pattern name" value="YourFancyName" text="YourFancyName" name="NewPatternName" />
-    <ui:Button text="GENERATE!!!" display-tooltip-when-elided="true" name="GenerateButton" style="height: 102px; width: 344px; -unity-text-align: middle-center; white-space: nowrap; top: 10px;" />
+    <ui:TextField picking-mode="Ignore" label="New pattern name" value="YourFancyName" text="YourFancyName" name="NewPatternName" style="align-items: center;" />
+    <ui:FloatField label="Game speed Multiplyer" value="1" name="GameSpeedMultiplyerField" />
+    <ui:Button text="GENERATE!!!" display-tooltip-when-elided="true" name="GenerateButton" style="margin-top: 39px;" />
 </ui:UXML>

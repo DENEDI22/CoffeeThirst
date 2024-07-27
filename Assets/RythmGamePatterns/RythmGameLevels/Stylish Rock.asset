@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74b22b33dd9b4a7292af6aff0c7a2e01, type: 3}
+  m_Name: Stylish Rock
+  m_EditorClassIdentifier: 
+  brickSpawnerMusicPattern: {fileID: 11400000, guid: a938716e074ff3a4d9163168306e8a93, type: 2}
+  audioClip: {fileID: 8300000, guid: f54e8aacc84965d42a6bffbc611dab4e, type: 3}
+  drumSamples:
+  - {fileID: 8300000, guid: 1720d4ec83bec6a41a08bd77e7c972fa, type: 3}
+  - {fileID: 8300000, guid: 26092d61a136b6c49846c0566d1e1b05, type: 3}
+  - {fileID: 8300000, guid: d05b38eb303392049a3f26539e99a525, type: 3}
+  - {fileID: 8300000, guid: a207790804525d142a29c94fb1af1fc0, type: 3}

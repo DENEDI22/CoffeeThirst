@@ -15,6 +15,11 @@ public class PlayMusicOnStart : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        // Invoke("PlayAfterDealay", 0f);
+    }
+
+    private void PlayAfterDealay()
+    {
         m_audioSource.Play();
     }
 }

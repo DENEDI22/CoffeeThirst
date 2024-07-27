@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74b22b33dd9b4a7292af6aff0c7a2e01, type: 3}
+  m_Name: Stumping rock (Four shots)
+  m_EditorClassIdentifier: 
+  brickSpawnerMusicPattern: {fileID: 11400000, guid: 6607e200e9057ba44be976c21db061fd, type: 2}
+  audioClip: {fileID: 8300000, guid: 2da99b6b461373844ad9add5698bb965, type: 3}
+  drumSamples:
+  - {fileID: 8300000, guid: 02ea0c6021d5ce9499d63e52fe3c18c9, type: 3}
+  - {fileID: 8300000, guid: 93c2689096c59b1418a55a20e1f6f1fd, type: 3}
+  - {fileID: 8300000, guid: dddeda1a1a12eaa42a9f09cc6880a1a9, type: 3}
+  - {fileID: 8300000, guid: 1c85b4f4ee2dceb4494362821c66e916, type: 3}
+  animationSpeedMultiplier: 1

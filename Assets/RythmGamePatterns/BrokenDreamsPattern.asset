@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2f0a27389ac46948c4538e9947534dc, type: 3}
   m_Name: BrokenDreamsPattern
   m_EditorClassIdentifier: 
-  startDelay: 1.113
+  startDelay: 2.113
   brickSpawningParams:
   - brickParameters:
       soundType: 0

@@ -7,10 +7,6 @@ using Unity.Plastic.Newtonsoft.Json;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
-using UnityEditor.UIElements;
-using UnityEngine.Windows;
-using File = System.IO.File;
-
 
 public class BricksPatternGenerator : EditorWindow
 {
@@ -59,13 +55,15 @@ public class BricksPatternGenerator : EditorWindow
         Button button = _clickEvent.currentTarget as Button;
 
         BrickSpawnerMusicPattern newPattern = CreateInstance<BrickSpawnerMusicPattern>();
+        newPattern.gamespeedMultiplyer = root.Q<FloatField>("GameSpeedMultiplyerField").value;
         newPattern.startDelay = 1.113f;
         newPattern.brickSpawningParams =
-            AudacityLabelsToBrickSpawningParams(root.Q<TextField>("JsonPathTextField").value);
+            AudacityLabelsToBrickSpawningParams(root.Q<TextField>("JsonPathTextField").value,
+                root.Q<FloatField>("GameSpeedMultiplyerField").value);
         AssetDatabase.CreateAsset(newPattern, $"Assets/{root.Q<TextField>("NewPatternName").value}.asset");
     }
 
-    private List<BrickSpawningParams> AudacityLabelsToBrickSpawningParams(string _path)
+    private List<BrickSpawningParams> AudacityLabelsToBrickSpawningParams(string _path, float _speedMultiplyer)
     {
         List<BrickSpawningParams> paramsList = new List<BrickSpawningParams>();
         List<AudacityLabel> labelsList;
@@ -86,9 +84,11 @@ public class BricksPatternGenerator : EditorWindow
                     brickParameters = new BrickParameters()
                     {
                         soundType = (SoundTypes)label.Label,
-                        speed = 5.75f
+                        speed = 12f * _speedMultiplyer
                     },
-                    nextParamDelay = labelsList[index + 1].StartTime - label.StartTime, numberOfTheTrack = label.Label
+                    /*nextParamDelay = labelsList[index + 1].StartTime - label.StartTime*/
+                    numberOfTheTrack = label.Label,
+                    nextParamTime = labelsList[index].StartTime - (2f/_speedMultiplyer)
                 });
             }
             catch (Exception e)
@@ -101,7 +101,7 @@ public class BricksPatternGenerator : EditorWindow
                         soundType = (SoundTypes)label.Label,
                         speed = 5.75f
                     },
-                    nextParamDelay = 0
+                    nextParamTime = 0
                 });
             }
         }
