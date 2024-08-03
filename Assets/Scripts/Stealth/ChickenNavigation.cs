@@ -1,9 +1,12 @@
 using System;
 using System.Collections;
+using System.Numerics;
+using Stealth;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
+using Vector3 = UnityEngine.Vector3;
 
 [Serializable]
 public enum ChickenStates
@@ -19,7 +22,7 @@ public class ChickenNavigation : MonoBehaviour
     [SerializeField] private Transform[] patrolPoints;
     [SerializeField] private float timeToDetect;
     [SerializeField] private Image detectionTimerProgressBar;
-
+    
 
     [SerializeField] private Transform headCheckingFOVPoint;
     [SerializeField] public float radius;
@@ -28,22 +31,21 @@ public class ChickenNavigation : MonoBehaviour
     public float angle;
 
     [SerializeField] public GameObject playerRef;
-
+    
     [SerializeField] private LayerMask targetMask;
     [SerializeField] private LayerMask obstructionMask;
-
     [SerializeField] public bool canSeePlayer;
-    
     private void Start()
     {
         playerRef = GameObject.FindGameObjectWithTag("Player");
-        StartCoroutine(FOVRoutine());
-        StartCoroutine(Patrol());
+        // StartCoroutine(FOVRoutine());
+        // StartCoroutine(Patrol());
     }
 
     private IEnumerator Patrol()
     {
         GetComponent<NavMeshAgent>().isStopped = false;
+        currentChickenState = ChickenStates.Patroling;
         while (!canSeePlayer)
         {
             while (true)
@@ -57,9 +59,27 @@ public class ChickenNavigation : MonoBehaviour
         }
     }
 
+    public void GoToPlayersSpot(Vector3 _playerPosition)
+    {
+        if (currentChickenState == ChickenStates.Patroling)
+        {
+            StopAllCoroutines();
+            StartCoroutine("GoToPlayerSpotCor", _playerPosition);
+        }
+    }
+
+    private IEnumerator GoToPlayerSpotCor(Vector3 _playerPosition)
+    {
+        GetComponent<NavMeshAgent>().SetDestination(_playerPosition);
+        yield return new WaitUntil(() => Vector3.Distance(transform.position, _playerPosition) <= 1.5f);
+        StartCoroutine(FollowPlayer());
+    }
+    
     private IEnumerator FollowPlayer()
     {
         GetComponent<NavMeshAgent>().isStopped = false;
+        FindObjectOfType<ChickenDetectionInformation>().OnPlayerDetected();
+        currentChickenState = ChickenStates.Chase;
         while (canSeePlayer)
         {
             GetComponent<NavMeshAgent>().SetDestination(playerRef.transform.position);
@@ -107,6 +127,7 @@ public class ChickenNavigation : MonoBehaviour
 
     private IEnumerator CheckPlayersLastPosition(Vector3 _lastKnownPosition)
     {
+        currentChickenState = ChickenStates.Patroling;
         NavMeshAgent navMeshAgent = GetComponent<NavMeshAgent>();
         navMeshAgent.SetDestination(_lastKnownPosition);
         yield return new WaitUntil(() => Vector3.Distance(transform.position, navMeshAgent.destination) < 0.5f);
