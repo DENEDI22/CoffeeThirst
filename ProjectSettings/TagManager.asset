@@ -8,6 +8,7 @@ TagManager:
   - Bug
   - Matka
   - Floor
+  - SafeZone
   layers:
   - Default
   - TransparentFX

@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Numerics;
 using Stealth;
 using UnityEngine;
 using UnityEngine.AI;
@@ -22,24 +21,22 @@ public class ChickenNavigation : MonoBehaviour
     [SerializeField] private Transform[] patrolPoints;
     [SerializeField] private float timeToDetect;
     [SerializeField] private Image detectionTimerProgressBar;
-    
+
 
     [SerializeField] private Transform headCheckingFOVPoint;
     [SerializeField] public float radius;
-    [Range(0,360)]
-    [SerializeField]
-    public float angle;
+    [Range(0, 360)] [SerializeField] public float angle;
 
     [SerializeField] public GameObject playerRef;
-    
+
     [SerializeField] private LayerMask targetMask;
     [SerializeField] private LayerMask obstructionMask;
     [SerializeField] public bool canSeePlayer;
+
     private void Start()
     {
         playerRef = GameObject.FindGameObjectWithTag("Player");
-        // StartCoroutine(FOVRoutine());
-        // StartCoroutine(Patrol());
+        StartCoroutine(Patrol());
     }
 
     private IEnumerator Patrol()
@@ -74,107 +71,125 @@ public class ChickenNavigation : MonoBehaviour
         yield return new WaitUntil(() => Vector3.Distance(transform.position, _playerPosition) <= 1.5f);
         StartCoroutine(FollowPlayer());
     }
-    
+
     private IEnumerator FollowPlayer()
     {
         GetComponent<NavMeshAgent>().isStopped = false;
-        FindObjectOfType<ChickenDetectionInformation>().OnPlayerDetected();
+        // FindObjectOfType<ChickenDetectionInformation>().OnPlayerDetected();
         currentChickenState = ChickenStates.Chase;
         while (canSeePlayer)
         {
             GetComponent<NavMeshAgent>().SetDestination(playerRef.transform.position);
             yield return new WaitForSeconds(0.5f);
-            if (Vector3.Distance(transform.position, playerRef.transform.position) <= 1.5f)
+            if (Vector3.Distance(transform.position, playerRef.transform.position) <= 1.8f)
             {
                 playerRef.GetComponent<PlayerHealth>().TakeDamage(1);
                 //TODO add animation
             }
+
+            if (playerRef.GetComponent<PlayerSafeZoneChecker>().PlayerIsInSafeZone)
+            {
+                canSeePlayer = false;
+                StartCoroutine("Patrol");
+                yield break;
+            }
+
+            OnPlayerLost();
+            yield break;
         }
-        OnPlayerLost();
-        yield break;
     }
 
     private IEnumerator StartDetectingPlayer()
-    {
-        for (float i = 0; i < timeToDetect; i += 0.01f)
         {
-            detectionTimerProgressBar.fillAmount = i / timeToDetect;
-            GetComponent<NavMeshAgent>().isStopped = true;
-            yield return new WaitForSeconds(0.01f);
+            for (float i = 0; i < timeToDetect; i += 0.01f)
+            {
+                detectionTimerProgressBar.fillAmount = i / timeToDetect;
+                GetComponent<NavMeshAgent>().isStopped = true;
+                yield return new WaitForSeconds(0.01f);
+                if (canSeePlayer == false)
+                {
+                    GetComponent<NavMeshAgent>().isStopped = false;
+                    detectionTimerProgressBar.fillAmount = 0;
+                    StartCoroutine(Patrol());
+                    yield break;
+                }
+            }
+
+            StartCoroutine(FollowPlayer());
+        }
+
+        // private IEnumerator FOVRoutine()
+        // {
+        //     WaitForSeconds wait = new WaitForSeconds(0.2f);
+        //
+        //     while (true)
+        //     {
+        //         yield return wait;
+        //         FieldOfViewCheck(transform);
+        //         if (!canSeePlayer) FieldOfViewCheck(headCheckingFOVPoint);
+        //     }
+        // }
+
+        private IEnumerator CheckPlayersLastPosition(Vector3 _lastKnownPosition)
+        {
+            currentChickenState = ChickenStates.Patroling;
+            NavMeshAgent navMeshAgent = GetComponent<NavMeshAgent>();
+            navMeshAgent.SetDestination(_lastKnownPosition);
+            yield return new WaitUntil(() => Vector3.Distance(transform.position, navMeshAgent.destination) < 0.5f);
+            yield return new WaitForSeconds(2f);
+            currentChickenState = ChickenStates.Patroling;
+            StartCoroutine(Patrol());
+        }
+
+        private void OnPlayerDetected()
+        {
             if (canSeePlayer == false)
             {
-                GetComponent<NavMeshAgent>().isStopped = false;
-                detectionTimerProgressBar.fillAmount = 0;
-                StartCoroutine(Patrol());
-                yield break;
+                StartCoroutine("StartDetectingPlayer");
+            }
+            else if(currentChickenState != ChickenStates.Chase)
+            {
+                transform.LookAt(playerRef.transform);
             }
         }
 
-        StartCoroutine(FollowPlayer());
-    }
-    
-    private IEnumerator FOVRoutine()
-    {
-        WaitForSeconds wait = new WaitForSeconds(0.2f);
-
-        while (true)
+        private void OnPlayerLost()
         {
-            yield return wait;
-            FieldOfViewCheck(transform);
+            StartCoroutine(CheckPlayersLastPosition(playerRef.transform.position));
+            detectionTimerProgressBar.fillAmount = 0;
+        }
+
+        private void FixedUpdate()
+        { 
+            FieldOfViewCheck(transform); 
             if (!canSeePlayer) FieldOfViewCheck(headCheckingFOVPoint);
         }
-    }
 
-    private IEnumerator CheckPlayersLastPosition(Vector3 _lastKnownPosition)
-    {
-        currentChickenState = ChickenStates.Patroling;
-        NavMeshAgent navMeshAgent = GetComponent<NavMeshAgent>();
-        navMeshAgent.SetDestination(_lastKnownPosition);
-        yield return new WaitUntil(() => Vector3.Distance(transform.position, navMeshAgent.destination) < 0.5f);
-        yield return new WaitForSeconds(2f);
-        currentChickenState = ChickenStates.Patroling;
-        StartCoroutine(Patrol());
-    }
-    
-    private void OnPlayerDetected()
-    {
-        StartCoroutine("StartDetectingPlayer");
-    }
-
-    private void OnPlayerLost()
-    {
-        StartCoroutine(CheckPlayersLastPosition(playerRef.transform.position));
-        detectionTimerProgressBar.fillAmount = 0;
-    }
-    
-    private void FieldOfViewCheck(Transform _fovPoint)
-    {
-        Collider[] rangeChecks = Physics.OverlapSphere(_fovPoint.position, radius, targetMask);
-
-        if (rangeChecks.Length != 0)
+        private void FieldOfViewCheck(Transform _fovPoint)
         {
-            Transform target = rangeChecks[0].transform;
-            Vector3 directionToTarget = (target.position - _fovPoint.position).normalized;
+            Collider[] rangeChecks = Physics.OverlapSphere(_fovPoint.position, radius, targetMask);
 
-            if (Vector3.Angle(_fovPoint.forward, directionToTarget) < angle / 2)
+            if (rangeChecks.Length != 0)
             {
-                float distanceToTarget = Vector3.Distance(_fovPoint.position, target.position);
+                Transform target = rangeChecks[0].transform;
+                Vector3 directionToTarget = (target.position - _fovPoint.position).normalized;
 
-                if (!Physics.Raycast(_fovPoint.position, directionToTarget, distanceToTarget, obstructionMask))
+                if (Vector3.Angle(_fovPoint.forward, directionToTarget) < angle / 2)
                 {
-                    if (canSeePlayer == false)
+                    float distanceToTarget = Vector3.Distance(_fovPoint.position, target.position);
+
+                    if (!Physics.Raycast(_fovPoint.position, directionToTarget, distanceToTarget, obstructionMask) && !playerRef.GetComponent<PlayerSafeZoneChecker>().PlayerIsInSafeZone)
                     {
-                        OnPlayerDetected();
+                                OnPlayerDetected();
+                                canSeePlayer = true;
                     }
-                    canSeePlayer = true;
+                    else
+                        canSeePlayer = false;
                 }
                 else
                     canSeePlayer = false;
             }
-            else
+            else if (canSeePlayer)
                 canSeePlayer = false;
         }
-        else if (canSeePlayer)
-            canSeePlayer = false;
     }
-}
