@@ -31,20 +31,7 @@ public class ChickenNavigation : MonoBehaviour
     private int currentPatrolPointIndex = 0;
     [SerializeField] private NavMeshAgent nmAgent;
     [SerializeField] private int damage = 1;
-
-
-    private void OnValidate()
-    {
-        if (!fovCheck)
-        {
-            fovCheck = GetComponent<FOVCheck>();
-        }
-
-        if (!safezoneChecker)
-        {
-            safezoneChecker = FindObjectOfType<PlayerSafeZoneChecker>();
-        }
-    }
+    
 
     private void FixedUpdate()
     {
