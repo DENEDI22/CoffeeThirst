@@ -11,7 +11,7 @@ public class CameraFade : MonoBehaviour
     private Renderer m_renderer;
     [SerializeField] private Material fadeMaterial, opaqueMaterial;
 
-    private void OnValidate()
+    private void Awake()
     {
         m_renderer = GetComponent<Renderer>();
     }

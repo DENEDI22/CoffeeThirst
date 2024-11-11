@@ -3,6 +3,7 @@ using System.Collections;
 using Stealth;
 using UnityEngine;
 using UnityEngine.AI;
+using Random = UnityEngine.Random;
 
 [Serializable]
 public enum ChickenStates
@@ -11,6 +12,7 @@ public enum ChickenStates
     ObservingPlayer,
     CheckingLastPosition,
     Chase,
+    Distracted,
 }
 
 [RequireComponent(typeof(NavMeshAgent))]
@@ -31,6 +33,12 @@ public class ChickenNavigation : MonoBehaviour
     private int currentPatrolPointIndex = 0;
     [SerializeField] private NavMeshAgent nmAgent;
     [SerializeField] private int damage = 1;
+
+    [Space] [Tooltip("Where to go if got distracted")] [SerializeField] private Transform distractionPoint;
+    [SerializeField] private float TimeOfDistraction = 5f;
+    [SerializeField] private float TimeOfDistractionDelta = 1f;
+    
+    [Space] [SerializeField] private Animator animator;
     
 
     private void FixedUpdate()
@@ -47,6 +55,10 @@ public class ChickenNavigation : MonoBehaviour
                 ChaseIteration();
                 break;
             case ChickenStates.ObservingPlayer:
+                //check coroutine "ObservingPlayerCoroutine"
+                break;
+            case ChickenStates.Distracted:
+                
                 break;
             default:
                 throw new ArgumentOutOfRangeException();
@@ -56,6 +68,7 @@ public class ChickenNavigation : MonoBehaviour
     private IEnumerator ObservingPlayerCoroutine()
     {
         detectionMonitor.SetToDetected();
+        animator.SetBool("isStaying", true);
         nmAgent.isStopped = true;
         for (int i = 0; i < timeToDetectPlayer; i++)
         {
@@ -112,6 +125,7 @@ public class ChickenNavigation : MonoBehaviour
             else
             {
                 nmAgent.isStopped = false;
+                animator.SetBool("isStaying", false);
                 nmAgent.SetDestination(player.position);
             }
         }
@@ -142,11 +156,31 @@ public class ChickenNavigation : MonoBehaviour
         }
     }
 
+    public void Distract()
+    {
+        StopAllCoroutines();
+        StartCoroutine(GetDistractedCoroutine());
+    }
+    
+    private IEnumerator GetDistractedCoroutine()
+    {
+        currentChickenState = ChickenStates.Distracted;
+        nmAgent.SetDestination(distractionPoint.position);
+        nmAgent.isStopped = false;
+        yield return new WaitUntil( () =>
+        {
+            return nmAgent.isStopped;
+        });
+        yield return new WaitForSeconds(TimeOfDistraction + Random.Range(-TimeOfDistractionDelta, TimeOfDistractionDelta));
+        currentChickenState = ChickenStates.Patroling;
+    }
+    
     private void Attack()
     {
         if (canAttack)
         {
             player.GetComponentInParent<PlayerHealth>().TakeDamage(damage);
+            animator.SetTrigger("Attack");
             StartCoroutine(Cooldown());
         }
     }

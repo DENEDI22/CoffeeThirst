@@ -174,7 +174,7 @@
                     "id": "8b24d215-58f7-4b01-bbc0-bd5292ae4213",
                     "path": "<Mouse>/delta",
                     "interactions": "",
-                    "processors": "InvertVector2(invertY=false)",
+                    "processors": "InvertVector2(invertX=false,invertY=false),ScaleVector2(x=2,y=2)",
                     "groups": "Keyboard/Mouse",
                     "action": "MouseDelta",
                     "isComposite": false,

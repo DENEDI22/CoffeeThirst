@@ -8,7 +8,7 @@ public class Egg : MonoBehaviour, IInteractable
     [SerializeField] private Transform playersHandPivotPoint;
     public bool OnInteract()
     {
-        if (m_isTaken && playersHandPivotPoint.childCount != 0) return false;
+        if (m_isTaken || playersHandPivotPoint.childCount != 0) return false;
         transform.SetParent(playersHandPivotPoint);
         transform.localPosition = Vector3.zero;
         m_isTaken = true;
