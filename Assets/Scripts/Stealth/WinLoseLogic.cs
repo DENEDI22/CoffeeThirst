@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -9,6 +10,8 @@ namespace Stealth
         private int eggCount = 0;
         [SerializeField] private GameObject winPanel;
         [SerializeField] private GameObject gameOverPanel;
+        [SerializeField] private TextMeshProUGUI EggsLeft;
+        
 
         private void Start()
         {
@@ -19,6 +22,7 @@ namespace Stealth
         public void OnEggTaken()
         {
             eggCount++;
+            EggsLeft.text = (eggsNeedToWin - eggCount).ToString();
             if (eggCount >= eggsNeedToWin)
             {
                 Win();

@@ -3,6 +3,7 @@ using System.Collections;
 using Stealth;
 using UnityEngine;
 using UnityEngine.AI;
+using Utilities;
 using Random = UnityEngine.Random;
 
 [Serializable]
@@ -24,6 +25,11 @@ public class ChickenNavigation : MonoBehaviour
     [SerializeField] private PlayerSafeZoneChecker safezoneChecker;
     [SerializeField] [Tooltip("In centiseconds (1 сs = 0,01s)")] private int timeToDetectPlayer;
     [SerializeField] private DetectionUIMonitor detectionMonitor;
+
+    [SerializeField] private float normalSpeed;
+    [SerializeField] private float chaseSpeed;
+    
+    
     
     
     [Space] [SerializeField] private FOVCheck fovCheck;
@@ -39,7 +45,20 @@ public class ChickenNavigation : MonoBehaviour
     [SerializeField] private float TimeOfDistractionDelta = 1f;
     
     [Space] [SerializeField] private Animator animator;
-    
+
+
+    public ChickenStates GetCurrentState
+    {
+        get
+        {
+            return currentChickenState;
+        }
+    }
+
+    private void Start()
+    {
+        GetComponent<NavMeshAgent>().speed = normalSpeed;
+    }
 
     private void FixedUpdate()
     {
@@ -81,6 +100,7 @@ public class ChickenNavigation : MonoBehaviour
             {
                 nmAgent.isStopped = false;
                 currentChickenState = ChickenStates.Patroling;
+                GetComponent<NavMeshAgent>().speed = normalSpeed;
                 detectionMonitor.PlayerLost();
                 yield break;
             }
@@ -88,6 +108,7 @@ public class ChickenNavigation : MonoBehaviour
         }
         nmAgent.isStopped = false;
         currentChickenState = ChickenStates.Chase;
+        GetComponent<NavMeshAgent>().speed = chaseSpeed;
     }
     
     /// <summary>
@@ -144,14 +165,17 @@ public class ChickenNavigation : MonoBehaviour
     {
         if (fovCheck.Detect(player) && !safezoneChecker.PlayerIsInSafeZone)
         {
-            currentChickenState = ChickenStates.ObservingPlayer;
-            StartCoroutine(ObservingPlayerCoroutine());
+            //currentChickenState = ChickenStates.ObservingPlayer;
+            //StartCoroutine(ObservingPlayerCoroutine());
+            currentChickenState = ChickenStates.Chase;
+            detectionMonitor.SetDetectingValue(1);
         }
         else
         {
             if (nmAgent.remainingDistance <= 0.5f)
             {
                 currentChickenState = ChickenStates.Patroling;
+                GetComponent<NavMeshAgent>().speed = normalSpeed;
             }
         }
     }
@@ -173,13 +197,14 @@ public class ChickenNavigation : MonoBehaviour
         });
         yield return new WaitForSeconds(TimeOfDistraction + Random.Range(-TimeOfDistractionDelta, TimeOfDistractionDelta));
         currentChickenState = ChickenStates.Patroling;
+        GetComponent<NavMeshAgent>().speed = normalSpeed;
     }
     
     private void Attack()
     {
         if (canAttack)
         {
-            player.GetComponentInParent<PlayerHealth>().TakeDamage(damage);
+            player.GetComponentInParent<PlayerHealth>().TakeDamage(damage, DamageImpactSoundType.Scream);
             animator.SetTrigger("Attack");
             StartCoroutine(Cooldown());
         }

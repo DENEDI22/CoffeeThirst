@@ -11,7 +11,7 @@ namespace Utilities
         public void TogglePauseMenu()
         {
             pauseMenu.SetActive(!pauseMenu.activeInHierarchy);
-            // Cursor.lockState = Cursor.lockState == CursorLockMode.Locked ? CursorLockMode.None : CursorLockMode.Locked;
+            Cursor.lockState = Cursor.lockState == CursorLockMode.Locked ? CursorLockMode.None : CursorLockMode.Locked;
             Time.timeScale = Time.timeScale != 0 ? 0 : 1;
             if (Time.timeScale > 0)
             {
